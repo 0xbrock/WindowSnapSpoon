@@ -1,0 +1,123 @@
+[
+  {
+    "Constant" : [
+
+    ],
+    "submodules" : [
+
+    ],
+    "Function" : [
+
+    ],
+    "Variable" : [
+
+    ],
+    "stripped_doc" : [
+
+    ],
+    "desc" : "Adds a hotkeys to position the active window in the position of the 1-9 number pad.",
+    "Deprecated" : [
+
+    ],
+    "type" : "Module",
+    "Constructor" : [
+
+    ],
+    "items" : [
+      {
+        "desc" : "Binds hotkeys for WindowSnap",
+        "stripped_doc" : [
+          "Binds hotkeys for WindowSnap",
+          ""
+        ],
+        "doc" : "Binds hotkeys for WindowSnap\n\nParameters:\n * mapping - A table containing hotkey modifier\/key details for the following items:---  * reloadConfiguration - This will cause the configuration to be reloaded",
+        "parameters" : [
+          " * mapping - A table containing hotkey modifier\/key details for the following items:---  * reloadConfiguration - This will cause the configuration to be reloaded"
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "WindowSnap:bindHotkeys(mapping)",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "WindowSnap:bindHotkeys(mapping)",
+        "name" : "bindHotkeys"
+      },
+      {
+        "desc" : "Bind default hotkeys",
+        "stripped_doc" : [
+          "Bind default hotkeys",
+          ""
+        ],
+        "doc" : "Bind default hotkeys\n\nParameters:\n * None",
+        "parameters" : [
+          " * None"
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "WindowSnap:start()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "WindowSnap:start()",
+        "name" : "start"
+      }
+    ],
+    "Method" : [
+      {
+        "desc" : "Binds hotkeys for WindowSnap",
+        "stripped_doc" : [
+          "Binds hotkeys for WindowSnap",
+          ""
+        ],
+        "doc" : "Binds hotkeys for WindowSnap\n\nParameters:\n * mapping - A table containing hotkey modifier\/key details for the following items:---  * reloadConfiguration - This will cause the configuration to be reloaded",
+        "parameters" : [
+          " * mapping - A table containing hotkey modifier\/key details for the following items:---  * reloadConfiguration - This will cause the configuration to be reloaded"
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "WindowSnap:bindHotkeys(mapping)",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "WindowSnap:bindHotkeys(mapping)",
+        "name" : "bindHotkeys"
+      },
+      {
+        "desc" : "Bind default hotkeys",
+        "stripped_doc" : [
+          "Bind default hotkeys",
+          ""
+        ],
+        "doc" : "Bind default hotkeys\n\nParameters:\n * None",
+        "parameters" : [
+          " * None"
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "WindowSnap:start()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "WindowSnap:start()",
+        "name" : "start"
+      }
+    ],
+    "Command" : [
+
+    ],
+    "Field" : [
+
+    ],
+    "doc" : "Adds a hotkeys to position the active window in the position of the 1-9 number pad.\nDefault modifiers: {\"ctrl\", \"alt\", \"cmd\"}\n\n7   8   9\n4   5   6\n1   2   3\n\nAlso, use `-` and `=` to move the active window between screens\n\nDownload: [https:\/\/github.com\/0xbrock\/WindowSnap\/releases](https:\/\/github.com\/0xbrock\/WindowSnap\/releases)",
+    "name" : "WindowSnap"
+  }
+]
