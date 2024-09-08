@@ -1,7 +1,7 @@
 --- === WindowSnap ===
 ---
 --- Adds a hotkeys to position the active window in the position of the 1-9 number pad.
---- Default modifiers: {“ctrl”, “alt”, “cmd”}
+--- Default modifiers: {"ctrl", "alt", "cmd"}
 ---
 --- 7   8   9
 --- 4   5   6
@@ -11,29 +11,30 @@
 ---
 --- Download: [https://github.com/0xbrock/WindowSnap/releases](https://github.com/0xbrock/WindowSnap/releases)
 
-local log=hs.logger.new(‘WindowSnap’,‘verbose’)
-local numpadkeys = {[‘1’] = true,[‘2’] = true,[‘3’] = true,[‘4’] = true,[‘5’] = true,[‘6’] = true,[‘7’] = true,[‘8’] = true,[‘9’] = true,[‘0’] = true,[‘=’] = true,[‘/’] = true,[‘*’] = true,[‘-’] = true,[‘+’] = true}
-local cardinals = {“NW”, “N”, “NE”, “W”, “C”, “E”, “SW”, “S”, “SE”}
+local log=hs.logger.new('WindowSnap','verbose')
+local numpadkeys = {['1'] = true,['2'] = true,['3'] = true,['4'] = true,['5'] = true,['6'] = true,['7'] = true,['8'] = true,['9'] = true,['0'] = true,['='] = true,['/'] = true,['*'] = true,['-'] = true,['+'] = true}
+local cardinals = {"NW", "N", "NE", "W", "C", "E", "SW", "S", "SE"}
 local obj = {}
 obj.__index = obj
 obj.defaultHotkeys = {
-  pwin    = { {“ctrl”, “alt”, “cmd”}, "-" },
-  nwin    = { {“ctrl”, “alt”, “cmd”}, "=" },
-  nw      = { {“ctrl”, “alt”, “cmd”}, "7" },
-  n       = { {“ctrl”, “alt”, “cmd”}, "8" },
-  ne      = { {“ctrl”, “alt”, “cmd”}, "9" },
-  w       = { {“ctrl”, “alt”, “cmd”}, "4" },
-  c       = { {“ctrl”, “alt”, “cmd”}, "5" },
-  e       = { {“ctrl”, “alt”, “cmd”}, "6" },
-  sw      = { {“ctrl”, “alt”, “cmd”}, "1" },
-  s       = { {“ctrl”, “alt”, “cmd”}, "2" },
-  se      = { {“ctrl”, “alt”, “cmd”}, "3" },
+  pwin    = { {"ctrl", "alt", "cmd"}, "-" },
+  nwin    = { {"ctrl", "alt", "cmd"}, "=" },
+  nw      = { {"ctrl", "alt", "cmd"}, "7" },
+  n       = { {"ctrl", "alt", "cmd"}, "8" },
+  ne      = { {"ctrl", "alt", "cmd"}, "9" },
+  w       = { {"ctrl", "alt", "cmd"}, "4" },
+  c       = { {"ctrl", "alt", "cmd"}, "5" },
+  e       = { {"ctrl", "alt", "cmd"}, "6" },
+  sw      = { {"ctrl", "alt", "cmd"}, "1" },
+  s       = { {"ctrl", "alt", "cmd"}, "2" },
+  se      = { {"ctrl", "alt", "cmd"}, "3" },
+  small   = { {"ctrl", "alt", "cmd"}, "0" },
 }
 obj.hotkeyBindings = {}
 
 -- Metadata
 obj.name = "WindowSnap"
-obj.version = "1.1"
+obj.version = "1.2"
 obj.author = "0xbrock"
 obj.homepage = "https://github.com/0xbrock/WindowSnap"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
@@ -58,8 +59,9 @@ end
 function obj:bindHotkeys(mappings)
   self:deleteAllHotkeys(self.hotkeyBindings)
 
-  self:bindNextScreen(mappings[“pwin”], 1)
-  self:bindNextScreen(mappings[“nwin”], -1)
+  self:bindNextScreen(mappings["pwin"], 1)
+  self:bindNextScreen(mappings["nwin"], -1)
+  self:bindResize(mappings["small"])
   
   for _,c in ipairs(cardinals) do
     self:bindWindowMove(mappings, c)
@@ -71,13 +73,13 @@ end
 function obj:bindHotkeyWithPad(mods, key, func)
   table.insert(self.hotkeyBindings, hs.hotkey.bind(mods, key, func))
   if numpadkeys[key] then
-    log.f(‘Binding numpad: pad%s’,key)
-    table.insert(self.hotkeyBindings, hs.hotkey.bind(mods, ‘pad’..key, func))
+    log.f('Binding numpad: pad%s',key)
+    table.insert(self.hotkeyBindings, hs.hotkey.bind(mods, 'pad'..key, func))
   end
 end
 
 function obj:deleteAllHotkeys(hkbindings)
-  log.f(‘Deleting bindings’)
+  log.f('Deleting bindings')
   if hkbindings then
     for _, hkbinding in ipairs(hkbindings) do
       if hkbinding then 
@@ -92,6 +94,13 @@ function obj:bindNextScreen(mapping, direction)
   self:bindHotkeyWithPad(mapping[1], mapping[2], function()
     local win = hs.window.focusedWindow()
     self:nextScreen(win, direction)
+  end)
+end
+
+function obj:bindResize(mapping)
+  self:bindHotkeyWithPad(mapping[1], mapping[2], function()
+    local win = hs.window.focusedWindow()
+    self:resizeWindow80Percent(win)
   end)
 end
 
@@ -142,35 +151,47 @@ end
 function obj:windowSnapMove(win, sf, location)
   local f = win:frame()
 
-  if (location == “NW”) then
+  if (location == "NW") then
     f.x = sf.x
     f.y = sf.y
-  elseif (location == “N”) then
+  elseif (location == "N") then
     f.x = sf.x + (sf.w/2) - (f.w/2)
     f.y = sf.y
-  elseif (location == “NE”) then
+  elseif (location == "NE") then
     f.x = sf.x + sf.w - f.w 
     f.y = sf.y
-  elseif (location == “W”) then
+  elseif (location == "W") then
     f.x = sf.x
     f.y = sf.y + (sf.h/2) - (f.h/2)
-  elseif (location == “C”) then
+  elseif (location == "C") then
     f.x = sf.x + (sf.w/2) - (f.w/2)
     f.y = sf.y + (sf.h/2) - (f.h/2)
-  elseif (location == “E”) then
+  elseif (location == "E") then
     f.x = sf.x + sf.w - f.w 
     f.y = sf.y + (sf.h/2) - (f.h/2)
-  elseif (location == “SW”) then
+  elseif (location == "SW") then
     f.x = sf.x 
     f.y = sf.y + sf.h - f.h
-  elseif (location == “S”) then
+  elseif (location == "S") then
     f.x = sf.x + (sf.w/2) - (f.w/2)
     f.y = sf.y + sf.h - f.h
-  elseif (location == “SE”) then
+  elseif (location == "SE") then
     f.x = sf.x + sf.w - f.w
     f.y = sf.y + sf.h - f.h
   end
   win:setFrame(f)
+end
+
+function obj:resizeWindow80Percent(win)
+  local screen = win:screen()
+  local frame = screen:frame()
+  local newFrame = {
+      x = frame.x + frame.w * 0.15 / 2,
+      y = frame.y + frame.h * 0.15 / 2,
+      w = frame.w * 0.85,
+      h = frame.h * 0.87
+  }
+  win:setFrame(newFrame)
 end
 
 return obj
